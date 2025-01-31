@@ -5,7 +5,7 @@ import faiss
 import numpy as np
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 import torch
-
+from nltk.tokenize import sent_tokenize
 
 
 st.set_page_config(page_title="Deep dive AI")
@@ -40,12 +40,14 @@ def extract_text_from_pdf(uploaded_file):
 
 def preprocess_text(text):
     # Split the text into paragraphs based on double newlines (i.e., paragraphs are separated by two line breaks)
-    paragraphs = text.split('\n\n')
+    #paragraphs = text.split('\n\n')
     
     # Clean up each paragraph by stripping extra spaces or other preprocessing tasks
-    paragraphs = [para.strip() for para in paragraphs if para.strip() != ""]
+    #paragraphs = [para.strip() for para in paragraphs if para.strip() != ""]
+    sentences = sent_tokenize(text)
+
     
-    return paragraphs
+    return sentences
 
 
 #generate embeddings for each paragraph
