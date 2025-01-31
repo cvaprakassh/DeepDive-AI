@@ -29,6 +29,7 @@ def load_huggingface_model(prompt):
     generator=pipeline('text-generation', model=model, tokenizer=tokenizer)
     answer=generator(inputs['input_ids'], max_new_tokens=150,num_return_sequences=1)
     # Decode the output tensor back to a string
+    print(answer)
     generated_text = answer[0]['generated_text']
 
     return generated_text
