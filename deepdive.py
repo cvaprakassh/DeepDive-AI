@@ -20,6 +20,8 @@ st.subheader("In-depth insights from AI Research papers")
 
 #Load the Hugging Face model gpt2
 def load_huggingface_model(prompt):
+    # Set pad_token as eos_token
+    tokenizer.pad_token = tokenizer.eos_token
     modelname = "gpt2"
     model = AutoModelForCausalLM.from_pretrained(modelname)
     tokenizer = AutoTokenizer.from_pretrained(modelname)
