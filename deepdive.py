@@ -20,11 +20,11 @@ st.subheader("In-depth insights from AI Research papers")
 
 #Load the Hugging Face model gpt2
 def load_huggingface_model(prompt):
-    # Set pad_token as eos_token
-    tokenizer.pad_token = tokenizer.eos_token
     modelname = "gpt2"
     model = AutoModelForCausalLM.from_pretrained(modelname)
     tokenizer = AutoTokenizer.from_pretrained(modelname)
+  # Set pad_token as eos_token
+    tokenizer.pad_token = tokenizer.eos_token  
     inputs = tokenizer(prompt, return_tensors='pt', max_length=1024, truncation=True, padding=True)
     generator=pipeline('text-generation', model=model, tokenizer=tokenizer)
     answer=generator(inputs['input_ids'], max_new_tokens=150,num_return_sequences=1)
