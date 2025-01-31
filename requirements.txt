@@ -3,7 +3,7 @@ streamlit-nightly
 PyPDF2==1.26.0
 sentence-transformers==2.2.0
 faiss-cpu==1.7.2  # or faiss-gpu if you're using GPU support
-numpy==1.21.4
+numpy==1.21.2
 transformers==4.24.0
 torch==2.0.0 
 altair==4.1.0
