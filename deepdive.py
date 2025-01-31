@@ -24,7 +24,7 @@ def load_huggingface_model(prompt):
     model = AutoModelForCausalLM.from_pretrained(modelname)
     tokenizer = AutoTokenizer.from_pretrained(modelname)
     generator=pipeline('text-generation', model=model, tokenizer=tokenizer)
-    answer=generator(prompt, max_new_tokens=150,max_length=1024,num_return_sequences=1,return_tensors='pt')
+    answer=generator(prompt, max_new_tokens=1024,num_return_sequences=1,return_tensors='pt')
     return answer
 
 
