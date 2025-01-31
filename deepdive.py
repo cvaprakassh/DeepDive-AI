@@ -106,6 +106,7 @@ if uploaded_file is not None:
 
     #using Hugging Face model to generate answers
     prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}\n\nContext:\n" + "\n".join(joined_results) + "\n\nAnswer:"
-    generated_answer = load_huggingface_model(prompt)[0]['generated_text']
+    generated_answer = load_huggingface_model(prompt)
+    st.write("Generated Answer:")
 else:
     st.write("Please upload a PDF file to get started")
