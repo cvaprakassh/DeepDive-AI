@@ -17,22 +17,31 @@ st.set_page_config(page_title="Deep dive AI")
 st.title("Welcome to Deep Dive AI 🚀")
 st.subheader("In-depth insights from AI Research papers")
 
+st.write("Deep Dive AI is a tool that helps you to extract information from research papers using AI. Upload a PDF file and ask a question to get started!")
 
-#Load the Hugging Face model gpt2
 def load_huggingface_model(prompt):
-    modelname = "gpt2"
-    model = AutoModelForCausalLM.from_pretrained(modelname)
-    tokenizer = AutoTokenizer.from_pretrained(modelname)
-  # Set pad_token as eos_token  
+    # Load the model and tokenizer
+    model_name = "gpt2"
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    
+    # Set pad_token as eos_token to prevent padding issues
     tokenizer.pad_token = tokenizer.eos_token  
-    inputs = tokenizer(prompt, return_tensors='pt', max_length=1024, truncation=True, padding=True)
-    generator=pipeline('text-generation', model=model, tokenizer=tokenizer)
-    answer=generator(inputs['input_ids'], max_new_tokens=150,num_return_sequences=1)
-    # Decode the output tensor back to a string
-    print(answer)
-    generated_text = answer[0]['generated_text']
 
+    # Tokenize the input text
+    inputs = tokenizer(prompt, return_tensors='pt', max_length=1024, truncation=True, padding=True)
+    
+    # Create a text-generation pipeline
+    generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+
+    # Generate text
+    generated = generator(prompt, max_new_tokens=150, num_return_sequences=1)
+    
+    # Extract the generated text correctly (from the 'generated_text' key in the output dictionary)
+    generated_text = generated[0]['generated_text']
+    
     return generated_text
+
 
 
 
@@ -105,13 +114,18 @@ if uploaded_file is not None:
     index = index_faiss(embeddings)
     model= SentenceTransformer('all-MiniLM-L6-v2')
     query = st.text_input("Enter your question here:")
-    results = search_faiss(query, index, paragraphs, model,k=1)
-    joined_results = ''.join([text for text, _ in results])  # This works because you are extracting the string part
+    if query == "":
+        st.write("Please enter a question to get started")
+    else:
+        results = search_faiss(query, index, paragraphs, model,k=1)
+        joined_results = ''.join([text for text, _ in results])  # This works because you are extracting the string part
 
-    #using Hugging Face model to generate answers
-    prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}\n\nContext:\n" + "\n".join(joined_results) + "\n\nAnswer:"
-    generated_answer = load_huggingface_model(prompt)
-    st.write("Generated Answer:")
-    st.write(generated_answer)
+        #using Hugging Face model to generate answers
+        prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}\n\nContext:\n" + "\n".join(joined_results) + "\n\nAnswer:"
+        #st.write("Prompt:", prompt)
+        #if st.button("Generate Answer"):
+        generated_answer = load_huggingface_model(prompt)
+        st.write("Generated Answer:")
+        st.write(generated_answer)
 else:
     st.write("Please upload a PDF file to get started")
