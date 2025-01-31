@@ -5,4 +5,4 @@ faiss-cpu==1.7.2  # or faiss-gpu if you're using GPU support
 numpy==1.21.4
 transformers==4.24.0
 torch==2.0.0 
-altair
+altair==3.0.0
