@@ -28,7 +28,10 @@ def load_huggingface_model(prompt):
     inputs = tokenizer(prompt, return_tensors='pt', max_length=1024, truncation=True, padding=True)
     generator=pipeline('text-generation', model=model, tokenizer=tokenizer)
     answer=generator(inputs['input_ids'], max_new_tokens=150,num_return_sequences=1)
-    return answer
+    # Decode the output tensor back to a string
+    generated_text = tokenizer.decode(answer[0]['generated_tokens'], skip_special_tokens=True)
+
+    return generated_text
 
 
 
@@ -108,5 +111,6 @@ if uploaded_file is not None:
     prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}\n\nContext:\n" + "\n".join(joined_results) + "\n\nAnswer:"
     generated_answer = load_huggingface_model(prompt)
     st.write("Generated Answer:")
+    st.write(generated_answer)
 else:
     st.write("Please upload a PDF file to get started")
