@@ -1,4 +1,5 @@
 streamlit==1.16.0
+streamlit-nightly
 PyPDF2==1.26.0
 sentence-transformers==2.2.0
 faiss-cpu==1.7.2  # or faiss-gpu if you're using GPU support
