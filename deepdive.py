@@ -97,7 +97,7 @@ def index_faiss(embeddings):
     return index
 
 #searching with FAISS
-def search_faiss(query, index, paragraphs,model, k=1):
+def search_faiss(query, index, paragraphs,model, k=5):
     query_embedding = model.encode([query]).astype('float32')     #generate the query embedding
     D, I = index.search(query_embedding, k) #search the index for the nearest neighbors
     results = [(paragraphs[i], D[0][j]) for j, i in enumerate(I[0])] #get the paragraphs and distances of the nearest neighbors
@@ -117,7 +117,7 @@ if uploaded_file is not None:
     if query == "":
         st.write("Please enter a question to get started")
     else:
-        results = search_faiss(query, index, paragraphs, model,k=1)
+        results = search_faiss(query, index, paragraphs, model,k=5)
         joined_results = ''.join([text for text, _ in results])  # This works because you are extracting the string part
 
         #using Hugging Face model to generate answers
