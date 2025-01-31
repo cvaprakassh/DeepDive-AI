@@ -55,17 +55,21 @@ def preprocess_text(text):
 
 
 #generate embeddings for each paragraph
-def generate_embeddings(paragraphs):
+def generate_embeddings(paragraphs,batch_size=32):
     model= SentenceTransformer('all-MiniLM-L6-v2') #load the model
-   
-    embeddings = model.encode(paragraphs, convert_to_tensor=True) #generate embeddings
+    embeddings = [] #initialize an empty list to store the embeddings
+    # Generate embeddings in batches
+    for i in range(0, len(paragraphs), batch_size):
+        batch = paragraphs[i:i + batch_size]
+        batch_embeddings = model.encode(batch, convert_to_tensor=True) #generate embeddings
+        embeddings.append(batch_embeddings.cpu().numpy()) #append the embeddings to the list
     # Ensure embeddings are on CPU and convert to numpy
-    if embeddings.device.type == 'mps':  # If the tensor is on MPS (Apple Silicon GPU)
-        embeddings = embeddings.cpu()  # Move it to CPU
-    embeddings_numpy=embeddings.detach().numpy() #convert embeddings to numpy array
+    #if embeddings.device.type == 'mps':  # If the tensor is on MPS (Apple Silicon GPU)
+    #   embeddings = embeddings.cpu()  # Move it to CPU
+    #embeddings_numpy=embeddings.detach().numpy() #convert embeddings to numpy array
 
 
-    return embeddings_numpy
+    return np.vstack(embeddings) #return the embeddings as a numpy array
 
 
 #indexing with FAISS
