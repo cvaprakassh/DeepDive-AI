@@ -8,6 +8,9 @@ import torch
 from nltk.tokenize import sent_tokenize
 
 
+# Ensure nltk punkt resource is downloaded
+nltk.download('punkt')
+
 st.set_page_config(page_title="Deep dive AI")
 
 st.title("Welcome to Deep Dive AI 🚀")
