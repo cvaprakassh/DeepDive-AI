@@ -23,8 +23,9 @@ def load_huggingface_model(prompt):
     modelname = "gpt2"
     model = AutoModelForCausalLM.from_pretrained(modelname)
     tokenizer = AutoTokenizer.from_pretrained(modelname)
+    inputs = tokenizer(prompt, return_tensors='pt', max_length=1024, truncation=True, padding=True)
     generator=pipeline('text-generation', model=model, tokenizer=tokenizer)
-    answer=generator(prompt, max_new_tokens=150,num_return_sequences=1,return_tensors='pt')
+    answer=generator(inputs['input_ids'], max_new_tokens=150,num_return_sequences=1)
     return answer
 
 
