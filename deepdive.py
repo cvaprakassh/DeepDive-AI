@@ -22,7 +22,7 @@ st.write("Deep Dive AI is a tool that helps you to extract information from rese
 
 def load_huggingface_model(prompt):
     # Load the model and tokenizer
-    model_name = "gpt2"
+    model_name = "gpt2-large"
     model = AutoModelForCausalLM.from_pretrained(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     
@@ -165,13 +165,14 @@ if uploaded_file is not None:
         st.write("Please enter a question to get started")
     else:
         results = search_faiss(query, index, paragraphs, model,k=3)
-        st.write("Top 3 paragraphs:", results)
+        #st.write("Top 3 paragraphs:", results)
         joined_results = ''.join([text for text, _ in results])  # This works because you are extracting the string part
         # st.write(joined_results)
 
         #using Hugging Face model to generate answers
-        prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}\n\nContext:\n{joined_results }\n\nAnswer:"
-        #prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}
+        #prompt = f"Answer the following question using the provided information:\n\nQuestion: {query}\n\nContext:\n{joined_results }\n\nAnswer:"
+        #st.write("question:",query)
+        prompt = f"{joined_results} {query}"
         #st.write("Prompt:", prompt)
         #if st.button("Generate Answer"):
         generated_answer = load_huggingface_model(prompt)
