@@ -4,7 +4,6 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
-import torch
 import nltk
 from nltk.tokenize import sent_tokenize
 import re
