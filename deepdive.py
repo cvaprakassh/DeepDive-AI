@@ -20,6 +20,7 @@ st.subheader("In-depth insights from AI Research papers")
 
 st.write("Deep Dive AI is a tool that helps you to extract information from research papers using AI. Upload a PDF file and ask a question to get started!")
 
+@st.cache_resource
 def load_huggingface_model(prompt):
     # Load the model and tokenizer
     model_name = "gpt2-large"
