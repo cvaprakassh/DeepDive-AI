@@ -11,6 +11,7 @@ import re
 
 # Ensure nltk punkt resource is downloaded
 nltk.download('punkt')
+nltk.download('punkt_tab')
 
 st.set_page_config(page_title="Deep dive AI")
 
