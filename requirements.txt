@@ -2,7 +2,9 @@ streamlit==1.16.0
 streamlit-nightly
 sentence-transformers==2.2.0
 faiss-cpu==1.7.2  # or faiss-gpu if you're using GPU support
-numpy
+numpy>=1.21
+torch>=1.10
+numpy==1.21.2
 transformers==4.24.0
 altair==4.1.0
 huggingface_hub==0.10.0
